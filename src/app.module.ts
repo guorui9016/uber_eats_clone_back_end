@@ -3,13 +3,15 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AccountModule } from './account/account.module';
+
 
 @Module({
   imports: [
-    // GraphQLModule.forRoot({
-    //   driver: ApolloDriver,
-    //   autoSchemaFile:true
-    // }),
+    GraphQLModule.forRoot({
+      driver: ApolloDriver,
+      autoSchemaFile:true
+    }),
 
     ConfigModule.forRoot({
       isGlobal:true,
@@ -33,10 +35,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       synchronize: true,
       logging: true
     }),
+
+    AccountModule,
     
-  ],
-  controllers: [],
-  providers: [],
+  ]
 })
 export class AppModule {
   constructor(){

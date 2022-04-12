@@ -1,0 +1,8 @@
+1. password encrypt
+2. JWT token
+3. login
+4. me api
+5. role
+6. finish all account api
+7. restaurant CURD
+8. dish CURD
