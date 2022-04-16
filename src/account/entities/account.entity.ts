@@ -1,8 +1,12 @@
 
-import { Field, InputType, ObjectType, registerEnumType } from "@nestjs/graphql";
+import { ArgsType, Field, InputType, ObjectType, registerEnumType } from "@nestjs/graphql";
 import { IsEmail, MaxLength, MinLength } from "class-validator";
 import { EntityCore } from "src/core/entities/entity.core";
-import { Column, Entity } from "typeorm";
+import { BeforeInsert, BeforeUpdate, Column, Entity } from "typeorm";
+import * as bcrypt from 'bcrypt';
+import { InternalServerErrorException } from "@nestjs/common";
+import { BlobOptions } from "buffer";
+import { BlockList } from "net";
 
 export enum Role{
     owner = 'owner',
@@ -41,4 +45,24 @@ export class Account extends EntityCore{
     @Field(()=>Boolean)
     @Column({default:false})
     verified?: boolean
+
+    @BeforeInsert()
+    @BeforeUpdate()
+    async encryptPassword():Promise<void>{
+        if(this.password){
+            try {
+                this.password = await bcrypt.hash(this.password, 10)
+            } catch (error) {
+                throw new InternalServerErrorException(error)
+            }
+        }
+    }
+
+    async checkPassword(iPwd:string):Promise<boolean>{
+        try {
+            return await bcrypt.compare(iPwd, this.password)
+        } catch (error) {
+            throw new InternalServerErrorException(error)    
+        }
+    }
 }
