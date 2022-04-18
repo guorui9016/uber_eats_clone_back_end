@@ -1,6 +1,7 @@
 
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { cp } from "fs";
+import { AuthAccount } from "src/auth/authAccount.decorator";
 import { UpdateEvent } from "typeorm";
 import { AccountService } from "./account.service";
 import { AccountOutputDto, CreateAccountInputDto, LoginInputDto, LoginOutputDto, UpdateAccountInputDto } from "./dtos/account.dto";
@@ -15,6 +16,11 @@ export class AccountResolver {
   @Query(()=>String)
   hi(){
     return 'hi'
+  }
+
+  @Query(()=>Account)
+  async me(@AuthAccount() account:Account):Promise<Account> {
+      return account
   }
 
   @Mutation(() => AccountOutputDto)

@@ -43,7 +43,7 @@ export class AccountService {
         try {
             const account = await this.accountRepository.findOne({email: input.email})
             if(account.checkPassword(input.password)){
-                const token = this.jwtService.sign(account.uuid)
+                const token = this.jwtService.sign({uuid: account.uuid})
                 return {code:'success',token:token}
             }else{
                 return {code:'failed', message:'Email and password are not match.'}

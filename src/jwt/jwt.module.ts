@@ -12,7 +12,7 @@ export class JwtModule{
       providers:[
         JwtService,
         {
-          provide: 'jwt_key',
+          provide: 'JwtOptions',
           useValue:options
         }]
     }
