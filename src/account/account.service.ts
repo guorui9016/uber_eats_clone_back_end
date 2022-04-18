@@ -14,7 +14,7 @@ export class AccountService {
     ){}
 
     async findAccountByUuid(uuid:string):Promise<Account>{
-        return this.accountRepository.findOne({uuid: uuid})
+        return await this.accountRepository.findOne({uuid: uuid})
     }
  
     async addAccount(input: CreateAccountInputDto): Promise<AccountOutputDto>{
