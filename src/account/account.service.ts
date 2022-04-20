@@ -1,15 +1,17 @@
-import { Catch, Inject, Injectable } from '@nestjs/common';
+import { Catch, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { JwtService } from 'src/jwt/jwt.service';
 import { Repository } from 'typeorm';
 import { AccountOutputDto, CreateAccountInputDto, LoginInputDto, LoginOutputDto, UpdateAccountInputDto } from './dtos/account.dto';
-import { Account, Role } from './entities/account.entity';
+import { Account } from './entities/account.entity';
+import { Verification } from './entities/verification.entity';
 
 @Catch()
 @Injectable()
 export class AccountService {
     constructor(
         @InjectRepository(Account) private readonly accountRepository: Repository<Account>,
+        @InjectRepository(Verification) private readonly verificationRepository: Repository<Verification>,
         private readonly jwtService:JwtService
     ){}
 
@@ -22,10 +24,11 @@ export class AccountService {
         if(exist){
             return {code: 'failed', message: 'The email already in the system.'}
         }
-        const result =  await this.accountRepository.insert(this.accountRepository.create(input))
-        if(!result){
+        const newAccount =  await this.accountRepository.save(this.accountRepository.create(input))
+        if(!newAccount){
             return {code: 'failed', message: "Could not create the account"}
         }
+        const newVerification =  await this.verificationRepository.save(this.verificationRepository.create({account: newAccount}))
         return {code:'success', message:'The account has been created'}
     }
 

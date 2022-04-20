@@ -3,7 +3,7 @@ import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedCol
 
 @ObjectType()
 @Entity()
-export class EntityCore{
+export class CoreEntity{
     @Field(()=>String)
     @PrimaryGeneratedColumn('uuid')
     uuid: string

@@ -1,12 +1,13 @@
 
 import { ArgsType, Field, InputType, ObjectType, registerEnumType } from "@nestjs/graphql";
 import { IsEmail, MaxLength, MinLength } from "class-validator";
-import { EntityCore } from "src/core/entities/entity.core";
-import { BeforeInsert, BeforeUpdate, Column, Entity } from "typeorm";
+import { CoreEntity } from "src/core/entities/entity.core";
+import { BeforeInsert, BeforeUpdate, Column, Entity, OneToOne } from "typeorm";
 import * as bcrypt from 'bcrypt';
 import { InternalServerErrorException } from "@nestjs/common";
 import { BlobOptions } from "buffer";
 import { BlockList } from "net";
+import { Verification } from "./verification.entity";
 
 export enum Role{
     owner = 'owner',
@@ -21,7 +22,7 @@ registerEnumType(Role, {
 @InputType('AccountInputType', {isAbstract:true})
 @ObjectType()
 @Entity()
-export class Account extends EntityCore{
+export class Account extends CoreEntity{
 
     @Field(()=>String)
     @Column()

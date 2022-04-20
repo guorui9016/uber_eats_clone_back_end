@@ -5,10 +5,11 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AccountModule } from './account/account.module';
 import { Account } from './account/entities/account.entity';
-import { EntityCore } from './core/entities/entity.core';
+import { CoreEntity } from './core/entities/entity.core';
 import { JwtModule } from './jwt/jwt.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtMiddleware } from './jwt/jwt.middleware';
+import { RestaurantModule } from './restaurant/restaurant.module';
 
 
 @Module({
@@ -41,13 +42,14 @@ import { JwtMiddleware } from './jwt/jwt.middleware';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
       entities:  ["dist/**/*.entity.js"],
-      // entities: [Account, EntityCore],
+      // entities: [Account, CoreEntity],
       synchronize: true,
       logging: true
     }),
     AccountModule,
     JwtModule,
     AuthModule,
+    RestaurantModule,
   ]
 })
 export class AppModule implements NestModule{
