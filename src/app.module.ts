@@ -4,8 +4,6 @@ import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AccountModule } from './account/account.module';
-import { Account } from './account/entities/account.entity';
-import { CoreEntity } from './core/entities/entity.core';
 import { JwtModule } from './jwt/jwt.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtMiddleware } from './jwt/jwt.middleware';
@@ -31,11 +29,6 @@ import { RestaurantModule } from './restaurant/restaurant.module';
 
     TypeOrmModule.forRoot({
       type: 'postgres',
-      // host: 'localhost',
-      // port: 5432,
-      // username: 'postgres',
-      // password: 'admin',
-      // database: 'nuber_eats_2',
       host: process.env.DB_HOST,
       port: +process.env.DB_PORT,
       username: process.env.DB_USER_NAME,

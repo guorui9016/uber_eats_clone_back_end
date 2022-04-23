@@ -1,9 +1,9 @@
 - password encrypt Done
 - JWT token
-- login
+- login done
 - email
-- me api
-- role
+- me api Done
+- role done
 - finish all account api
 - restaurant CURD
 - dish CURD

@@ -2,12 +2,13 @@
 import { ArgsType, Field, InputType, ObjectType, registerEnumType } from "@nestjs/graphql";
 import { IsEmail, MaxLength, MinLength } from "class-validator";
 import { CoreEntity } from "src/core/entities/entity.core";
-import { BeforeInsert, BeforeUpdate, Column, Entity, OneToOne } from "typeorm";
+import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany, OneToOne } from "typeorm";
 import * as bcrypt from 'bcrypt';
 import { InternalServerErrorException } from "@nestjs/common";
 import { BlobOptions } from "buffer";
 import { BlockList } from "net";
 import { Verification } from "./verification.entity";
+import { Restaurant } from "src/restaurant/entity/restaurant.entity";
 
 export enum Role{
     owner = 'owner',
@@ -46,6 +47,10 @@ export class Account extends CoreEntity{
     @Field(()=>Boolean)
     @Column({default:false})
     verified?: boolean
+
+    @Field(()=>[Restaurant])
+    @OneToMany(()=> Restaurant, restaurants => restaurants.owner)
+    restaurants: Restaurant[]
 
     @BeforeInsert()
     @BeforeUpdate()
