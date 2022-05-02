@@ -3,7 +3,7 @@ import { Account } from "src/account/entities/account.entity";
 import { AuthGuard } from "src/auth/auth.guard";
 import { AuthAccount } from "src/auth/authAccount.decorator";
 import { AccountRole } from "src/auth/authRole.decorator";
-import { CreateRestaurantInputDto, CreateRestaurantOutputDto } from "./dots/restaurant.dto";
+import { CreateRestaurantInputDto, CreateRestaurantOutputDto, UpdateRestaurantInputDto, UpdateRestaurantOutputDto } from "./dots/restaurant.dto";
 import { RestaurantService } from "./restaurant.service";
 
 @Resolver()
@@ -16,5 +16,11 @@ export class RestaurantResolver {
     @AccountRole(['owner'])
     async createRestaurant(@AuthAccount() owner: Account,@Args('input') createRestaurantInputDto:CreateRestaurantInputDto): Promise<CreateRestaurantOutputDto> {
         return await this.restaurantService.createRestaurant(owner, createRestaurantInputDto)
+    }
+
+    @Mutation(()=> UpdateRestaurantOutputDto)
+    @AccountRole(['owner'])
+    async updateRestaurant(@AuthAccount() owner:Account, @Args('input') updateRestaurantInputDto:UpdateRestaurantInputDto):Promise<UpdateRestaurantOutputDto>{
+        return await this.restaurantService.updateRestaurant(owner, updateRestaurantInputDto)
     }
 }

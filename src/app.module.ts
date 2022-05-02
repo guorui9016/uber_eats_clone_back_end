@@ -8,6 +8,7 @@ import { JwtModule } from './jwt/jwt.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtMiddleware } from './jwt/jwt.middleware';
 import { RestaurantModule } from './restaurant/restaurant.module';
+import { CategoryModule } from './category/category.module';
 
 
 @Module({
@@ -43,6 +44,7 @@ import { RestaurantModule } from './restaurant/restaurant.module';
     JwtModule,
     AuthModule,
     RestaurantModule,
+    CategoryModule,
   ]
 })
 export class AppModule implements NestModule{

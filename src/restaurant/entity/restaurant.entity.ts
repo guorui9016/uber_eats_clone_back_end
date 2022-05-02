@@ -2,8 +2,8 @@ import { Field, InputType, ObjectType } from "@nestjs/graphql";
 import { IsString, MaxLength } from "class-validator";
 import { Account } from "src/account/entities/account.entity";
 import { CoreEntity } from "src/core/entities/entity.core";
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne } from "typeorm";
-import { Category } from "./category.entity";
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne, RelationId } from "typeorm";
+import { Category } from "../../category/entity/category.entity";
 
 
 @InputType('RestaurantInput', {isAbstract: true})
@@ -41,4 +41,8 @@ export class Restaurant extends CoreEntity{
     @ManyToMany(()=> Category, categores=> categores.restaurants)
     @JoinTable()
     categores?: Category[]
+
+    @Field(()=> [String])
+    @RelationId((restaurant:Restaurant)=> restaurant.categores)
+    categrousUuids: string[]
 }
