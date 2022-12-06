@@ -11,13 +11,14 @@ export class AuthGuard implements CanActivate {
         //get the account info from context
         //return ture if the account is existed
         const roles = this.reflector.get<AllowedRoles>('roles', context.getHandler())
-        console.log("Class: AuthGuard: roles -----> " + roles)
+        console.log("Class: AuthGuard: roles --> " + context.getHandler())
+        console.log("Class: AuthGuard: roles --> " + roles)
         if (!roles) {
             return true
         }
         const gqlContext = GqlExecutionContext.create(context).getContext()
         const account = gqlContext['req']['account']
-        console.log("Class: AuthGuard: account.role -----> " + account.role)        
+        console.log("Class: AuthGuard: account.role --> " + account.role)        
         if (!account) {
             return false
         }

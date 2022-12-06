@@ -45,12 +45,19 @@ export class AccountService {
     async login(input:LoginInputDto):Promise<LoginOutputDto>{
         try {
             const account = await this.accountRepository.findOne({email: input.email})
-            if(account.checkPassword(input.password)){
-                const token = this.jwtService.sign({uuid: account.uuid})
-                return {code:'success',token:token}
+            console.log("Clas AccountService -->",account)
+            if(account !== undefined){
+                console.log(`check the password: ${await account.checkPassword(input.password)}`)
+                if(await account.checkPassword(input.password)){
+                    const token = this.jwtService.sign({uuid: account.uuid})
+                    return {code:'success',token:token}
+                }else{
+                    return {code:'failed', message:'Email and password are not match.'}
+                }
             }else{
-                return {code:'failed', message:'Email and password are not match.'}
+                return {code:'failed', message:'Email can not found. Please Sign Up'}
             }
+
         } catch (error) {
             return {code: 'failed', message:"Can not login the system"}
         }

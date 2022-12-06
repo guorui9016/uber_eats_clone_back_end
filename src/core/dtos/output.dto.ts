@@ -5,6 +5,6 @@ export class OutputDto{
     @Field(()=> String)
     code: string
 
-    @Field(() => String)
+    @Field(() => String, {nullable:true})
     message?: string
 }

@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { CreateCategoryInputDto, UpdateCategoryInputDto } from "src/category/dtos/category.dto";
+import { CreateCategoryInputDto, DeleteCategoryInputDto, UpdateCategoryInputDto } from "src/category/dtos/category.dto";
 import { OutputDto } from "src/core/dtos/output.dto";
 import { Repository } from "typeorm";
 import { Category } from "./entity/category.entity";
@@ -37,6 +37,15 @@ constructor(
         return {code:"success", message:"The category has been updated."}
     }
 
-    
-
+    async deleteCategory(deleteCategoryInputDto:DeleteCategoryInputDto):Promise<OutputDto>{
+        const existCategory =await this.categoryRepository.findOne({uuid: deleteCategoryInputDto.uuid})
+        if(!existCategory){
+            return {code:'failed', message: 'The category does not exist in the system'}
+        }
+        const deletedCategory = await this.categoryRepository.delete({uuid: deleteCategoryInputDto.uuid})
+        if(deletedCategory.affected < 1){
+            return {code:'failed', message: 'can not deleted the category'}
+        }
+        return {code:'sucess', message: 'The category has been deleted.'}
+    }
 }   

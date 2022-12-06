@@ -66,6 +66,7 @@ export class Account extends CoreEntity{
 
     async checkPassword(iPwd:string):Promise<boolean>{
         try {
+            console.log(`the input password is ${iPwd}, and the account pwd is ${this.password}`)
             return await bcrypt.compare(iPwd, this.password)
         } catch (error) {
             throw new InternalServerErrorException(error)    

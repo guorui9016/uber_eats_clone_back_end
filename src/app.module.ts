@@ -15,7 +15,11 @@ import { CategoryModule } from './category/category.module';
   imports: [
     GraphQLModule.forRoot({
       driver: ApolloDriver,
-      autoSchemaFile:true
+      autoSchemaFile:true,
+      cors:{
+        origin: 'http://localhost:3000',
+        credentials: true,
+      }
     }),
 
     ConfigModule.forRoot({

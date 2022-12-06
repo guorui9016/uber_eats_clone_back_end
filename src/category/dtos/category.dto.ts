@@ -1,5 +1,6 @@
-import { InputType, IntersectionType, ObjectType, PartialType, PickType } from "@nestjs/graphql";
+import { extend, Field, InputType, IntersectionType, ObjectType, PartialType, PickType } from "@nestjs/graphql";
 import { OutputDto } from "src/core/dtos/output.dto";
+import { CoreEntity } from "src/core/entities/entity.core";
 import { Category } from "../entity/category.entity";
 
 // class updateCategoryRequets extends PickType(Category, ['uuid']){}
@@ -18,6 +19,8 @@ export class UpdateCategoryInputDto extends IntersectionType(
     PartialType(PickType(Category,['category_name', 'cover_image_url', 'restaurantUuids', 'restaurants']))
 ){}
 
+@InputType()
+export class DeleteCategoryInputDto extends PickType(CoreEntity, ['uuid']){}
 
 // @ObjectType()
 // export class CreateCategoryOutputDto extends OutputDto{}
